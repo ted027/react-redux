@@ -1,0 +1,41 @@
+Resources:
+  S3WebSiteSample:
+    Type: "AWS::S3::Bucket"
+    DependsOn: S3WebSiteSampleLog
+    Properties:
+      BucketName: react-website-tet
+      LoggingConfiguration:
+        DestinationBucketName:
+          Ref: S3WebSiteSampleLog
+        LogFilePrefix: logs/
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+
+  S3WebSiteSampleLog:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      AccessControl: LogDeliveryWrite
+      BucketName: react-website-tet-log
+
+  S3WebSiteSampleBucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket:
+        Ref: S3WebSiteSample
+      PolicyDocument:
+        Statement:
+          -
+            Sid: "PublicReadForGetBucketObjects"
+            Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource:
+              Fn::Join:
+                - ""
+                -
+                  - "arn:aws:s3:::"
+                  -
+                    Ref: S3WebSiteSample
+                  - "/*"
+            Principal: "*"
