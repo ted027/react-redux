@@ -7,8 +7,9 @@ function Count() {
     console.log("CountDisplay Rendered.")
     return (
         <div>
-            <h1>Count: {state.count}</h1>
-            <h2>Hit: {state.hit}</h2>
+            <h2>Count1: {state.count1}</h2>
+            <h2>Count2: {state.count2}</h2>
+            <h3>Hit: {state.hit}</h3>
         </div>
     );
 }
